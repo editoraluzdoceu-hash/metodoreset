@@ -24,6 +24,7 @@ body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 'Inter',syst
 h1,h2,h3,h4,.brand strong{font-family:'Fraunces',Georgia,serif;color:var(--cream)}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer;border:0}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold-soft);outline-offset:2px}
 .shell{display:flex;min-height:100vh}
 .side{width:300px;background:var(--bg-alt);color:var(--body);padding:28px 18px;position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--line);z-index:10}
 .brand{display:flex;gap:12px;align-items:center;margin:0 10px 30px}
@@ -32,9 +33,12 @@ button{cursor:pointer;border:0}
 .brand small{color:var(--body-dim)}
 .nav button{display:block;width:100%;text-align:left;background:transparent;color:var(--body);padding:11px 12px;border-radius:10px;margin:3px 0;transition:.15s}
 .nav button:hover,.nav button.active{background:var(--card-hi);color:var(--gold-soft)}
+.nav button.reading-nav{background:linear-gradient(135deg,rgba(217,162,75,.22),rgba(185,120,43,.12));border:1px solid rgba(217,162,75,.42);color:var(--gold-soft);font-weight:800;margin-bottom:8px}
+.nav button.reading-nav:hover,.nav button.reading-nav.active{background:linear-gradient(135deg,rgba(217,162,75,.32),rgba(185,120,43,.2));color:var(--cream)}
 .side-foot{border-top:1px solid var(--line);margin:25px 10px 0;padding-top:18px;font-size:12px;color:var(--body-dim)}
 .main{width:min(100%,1100px);margin:0 auto;padding:34px 32px 70px}
 .mobilebar{display:none}
+.mobile-nav{display:none}
 .hero{background:linear-gradient(135deg,#161009 0%,#1F1509 55%,#241A0C 130%);border:1px solid var(--line);color:var(--cream);border-radius:24px;padding:42px;box-shadow:var(--shadow);margin-bottom:26px}
 .eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:800;color:var(--gold-soft)}
 .hero h1{font-size:clamp(34px,5vw,62px);line-height:1.03;margin:12px 0}
@@ -131,6 +135,23 @@ button{cursor:pointer;border:0}
 .field-extra{border-top:1px dashed var(--line);margin-top:14px;padding-top:2px}
 .field-toggle{background:transparent;color:var(--gold-soft);font-weight:700;font-size:13px;padding:8px 0;text-decoration:underline;text-underline-offset:3px}
 .tool-recommend-banner{display:flex;align-items:center;gap:10px;background:var(--card-hi);border:1px solid var(--gold-deep);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--body)}
+.tool-path{background:var(--bg-alt);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px}
+.tool-path-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--cream);font-weight:750}
+.tool-path-kicker{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-soft);font-weight:800}
+.tool-path p{font-size:13px;margin:8px 0 0;color:var(--body)}
+.tool-path strong{color:var(--cream)}
+.tool-path .progress{margin:11px 0 0;height:6px}
+.tool-path-next{font-size:12px;color:var(--body-dim)!important;margin-top:10px!important}
+.journey-guide{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:20px;margin:18px 0}
+.journey-guide h2{margin:4px 0 15px;font-size:24px}
+.journey-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.journey-grid>div{display:flex;align-items:flex-start;gap:10px;background:var(--bg);border-radius:12px;padding:13px}
+.journey-grid b{color:var(--cream)}
+.journey-grid p{margin:3px 0 0;color:var(--body-dim);font-size:12px;line-height:1.45}
+.journey-number{display:grid;place-items:center;flex:0 0 26px;height:26px;border-radius:50%;background:var(--gold-deep);color:#221705;font-weight:850}
+.next-tool-suggestion:empty{display:none}
+.next-tool-suggestion{margin-top:16px}
+
 .nav-help-btn{display:flex;align-items:center;gap:6px;width:100%;background:var(--care-bg);color:var(--care);border:1px solid rgba(201,123,107,.35);border-radius:10px;padding:10px 12px;font-weight:700;margin:0 10px 18px;justify-content:center}
 .help-overlay{position:fixed;inset:0;background:rgba(6,4,2,.72);z-index:60;display:flex;align-items:center;justify-content:center;padding:24px}
 .help-card{position:relative;width:min(100%,440px);background:var(--card);border:1px solid var(--line);border-radius:22px;padding:30px 26px;box-shadow:0 24px 60px rgba(0,0,0,.55);max-height:90vh;overflow:auto}
@@ -197,7 +218,13 @@ button{cursor:pointer;border:0}
 .mobilebar{display:flex;position:sticky;top:0;z-index:4;background:var(--bg-alt);color:var(--cream);border-bottom:1px solid var(--line);padding:13px 16px;justify-content:space-between;align-items:center}
 .mobilebar button{background:transparent;color:var(--cream);font-size:20px}
 .mobilebar-help{font-size:17px!important;background:var(--care-bg)!important;border-radius:9px;padding:6px 9px!important}
-.main{padding:20px 15px 55px}
+.mobilebar-read{font-size:17px!important;background:rgba(217,162,75,.2)!important;border:1px solid rgba(217,162,75,.4)!important;border-radius:9px;padding:6px 9px!important}
+.mobile-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:8;grid-template-columns:repeat(5,1fr);gap:2px;padding:7px 7px calc(7px + env(safe-area-inset-bottom));background:rgba(20,17,11,.97);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,.3)}
+.mobile-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;padding:5px 2px;border-radius:9px;background:transparent;color:var(--body-dim);font-size:17px;line-height:1.15}
+.mobile-nav button span{font-size:10px;font-weight:700;white-space:nowrap}
+.mobile-nav button.active{background:var(--card-hi);color:var(--gold-soft)}
+.mobile-nav button:hover{color:var(--cream)}
+.main{padding:20px 15px 100px}
 .hero{padding:27px 22px;border-radius:18px}
 .grid,.tool-grid{grid-template-columns:1fr}
 .section-head{display:block}
@@ -209,13 +236,14 @@ button{cursor:pointer;border:0}
 .emotion-wheel{grid-template-columns:repeat(2,1fr)}
 .plan-grid{grid-template-columns:repeat(3,1fr)}
 .finance-grid{grid-template-columns:1fr}
+.journey-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="mobilebar"><strong>◈ MÉTODO RESET</strong><div style="display:flex;gap:8px"><button onclick="openHelp()" aria-label="Precisa de ajuda agora" class="mobilebar-help">🆘</button><button onclick="toggleMenu()" aria-label="Abrir menu">☰</button></div></div>
+<div class="mobilebar"><strong>◈ MÉTODO RESET</strong><div style="display:flex;gap:8px"><button onclick="openReading()" aria-label="Continuar leitura" class="mobilebar-read">📘</button><button onclick="openHelp()" aria-label="Precisa de ajuda agora" class="mobilebar-help">🆘</button><button onclick="toggleMenu()" aria-label="Abrir menu">☰</button></div></div>
 <div class="mobile-overlay" id="mobile-overlay" onclick="closeMenu()"></div>
-<div class="shell"><aside class="side" id="side"><div class="brand"><div class="mark">R</div><div><strong>RESET</strong><small>reconstrução possível</small></div></div><button class="nav-help-btn" onclick="openHelp()">🆘 Precisa de ajuda agora?</button><nav class="nav"><button data-view="home" onclick="go('home')">⌂ Início</button><button data-view="chapters" onclick="go('chapters')">▤ Ler o livro</button><button data-view="journal" onclick="go('journal')">✎ Diário</button><button data-view="tools" onclick="go('tools')">✦ Ferramentas</button><button data-view="plan" onclick="go('plan')">◷ Plano de 30 dias</button></nav><div class="side-foot"><button class="ghost" style="background:#244b68;color:#fff;width:100%;margin-bottom:14px" onclick="openQuiz(true)">✎ Editar meu perfil</button>Seu progresso fica salvo neste dispositivo.<div class="backup-actions"><button class="ghost" onclick="exportData()">⬇ Exportar meus dados</button><button class="ghost" onclick="document.getElementById('import-file').click()">⬆ Importar dados</button><input type="file" id="import-file" accept="application/json" style="display:none" onchange="importData(this.files[0])"></div><div id="backup-hint"></div><br>O Método RESET é uma ferramenta de organização e reconstrução pessoal; não substitui acompanhamento clínico, psicológico ou psiquiátrico.</div></aside><main class="main" id="app"></main></div><div class="toast" id="toast"></div>
+<div class="shell"><aside class="side" id="side"><div class="brand"><div class="mark">R</div><div><strong>RESET</strong><small>reconstrução possível</small></div></div><button class="nav-help-btn" onclick="openHelp()">🆘 Precisa de ajuda agora?</button><nav class="nav"><button data-view="home" onclick="go('home')">⌂ Início</button><button class="reading-nav" data-view="chapters" onclick="go('chapters')">📘 Ler o livro — principal</button><button data-view="journal" onclick="go('journal')">✎ Diário</button><button data-view="tools" onclick="go('tools')">✦ Ferramentas</button><button data-view="plan" onclick="go('plan')">◷ Plano de 30 dias</button></nav><div class="side-foot"><button class="ghost" style="background:#244b68;color:#fff;width:100%;margin-bottom:14px" onclick="openQuiz(true)">✎ Editar meu perfil</button>Seu progresso fica salvo neste dispositivo.<div class="backup-actions"><button class="ghost" onclick="exportData()">⬇ Exportar meus dados</button><button class="ghost" onclick="document.getElementById('import-file').click()">⬆ Importar dados</button><input type="file" id="import-file" accept="application/json" style="display:none" onchange="importData(this.files[0])"></div><div id="backup-hint"></div><br>O Método RESET é uma ferramenta de organização e reconstrução pessoal; não substitui acompanhamento clínico, psicológico ou psiquiátrico.</div></aside><main class="main" id="app"></main></div><nav class="mobile-nav" aria-label="Navegação principal"><button data-view="home" onclick="go('home')">⌂<span>Início</span></button><button data-view="chapters" onclick="go('chapters')">📘<span>Ler</span></button><button data-view="journal" onclick="go('journal')">✎<span>Diário</span></button><button data-view="tools" onclick="go('tools')">✦<span>Ferramentas</span></button><button data-view="plan" onclick="go('plan')">◷<span>Plano</span></button></nav><div class="toast" id="toast"></div>
 <div class="quiz-overlay" id="quiz-overlay" style="display:none"></div>
 <div class="help-overlay" id="help-overlay" style="display:none"></div>
 <div class="tour-overlay" id="tour-overlay" style="display:none"></div>
@@ -292,6 +320,25 @@ const toolDefs=[
 {"match":"Painel de Manutenção Anual","title":"Painel de Manutenção Anual RESET","intro":"4 check-ins ao longo de 12 meses. Prevenção do esquecimento gradual.","fields":[["q1","Check-in 1 — data e estado geral","textarea"],["q2","Check-in 2 — data e estado geral","textarea"],["q3","Check-in 3 — data e estado geral","textarea"],["q4","Check-in 4 — data e estado geral","textarea"]],"custom":"manutencao"}
 ];
 
+// Ordem de prática do livro. A pessoa pode voltar a qualquer ferramenta,
+// mas a próxima sugestão sempre respeita esta trilha, em vez de depender do quiz.
+const BOOK_TOOL_SEQUENCE=[
+  {idx:0,phase:'Reconhecer',how:'Comece pelo que é observável: fato, história, custo e menor passo. Não tente transformar a dor em pensamento positivo.',advance:'Avance quando conseguir nomear pelo menos um fato e um passo pequeno.'},
+  {idx:1,phase:'Reconhecer',how:'Marque o que está acontecendo sem transformar o checklist em diagnóstico. Ele serve para normalizar e acompanhar.',advance:'Depois de registrar seu estado atual, siga para a escala.'},
+  {idx:2,phase:'Reconhecer → Estabilizar',how:'Responda com honestidade. Uma pontuação baixa pede base física e repetição, não uma lista maior de metas.',advance:'Use o resultado para calibrar o ritmo; não é uma prova que precisa ser "passada".'},
+  {idx:3,phase:'Estabilizar',how:'Defina a menor versão viável de sono, movimento, alimentação e luz para hoje. Consistência mínima vem antes de desempenho.',advance:'Quando a base estiver minimamente cuidada, observe um pensamento específico.'},
+  {idx:4,phase:'Estabilizar',how:'Escolha uma situação recente e examine o pensamento como argumento: evidências a favor, contra e uma formulação mais precisa.',advance:'Conclua com uma ação pequena que combine com a leitura mais precisa.'},
+  {idx:5,phase:'Estabilizar',how:'Use a roda para nomear melhor a emoção, registrar intensidade, corpo, necessidade e um cuidado possível. Repetir algumas vezes ajuda a ver padrões.',advance:'Após alguns registros, organize também a parte financeira.'},
+  {idx:6,phase:'Estabilizar',how:'Olhe primeiro para renda, essenciais e cortes temporários. Evite decisões grandes enquanto a situação ainda estiver nebulosa.',advance:'Com os números mais claros, faça um check-in das quatro áreas.'},
+  {idx:7,phase:'Estabilizar',how:'Faça uma revisão semanal curta: físico, mental, emocional e financeiro. Procure conexões, não uma nota perfeita.',advance:'Use esse retrato para decidir se há espaço para um hábito pequeno.'},
+  {idx:8,phase:'Sistematizar',how:'Escolha apenas um hábito. Desenhe gatilho, rotina, recompensa, meta mínima e versão para dia ruim antes de tentar aumentar.',advance:'Mantenha o mínimo e deixe um protocolo pronto para quando sair do ritmo.'},
+  {idx:9,phase:'Executar',how:'Preencha enquanto está bem, não só depois de uma recaída: fato, gatilho, menor retomada em 24 horas e apoio.',advance:'Depois de praticar e retomar algumas vezes, consolide o aprendizado.'},
+  {idx:10,phase:'Transformar',how:'Escreva para quem você era no início da queda. Registre o que aprendeu, o que ajudou e como voltou depois dos dias ruins.',advance:'Use a carta como fechamento da primeira travessia e organize o próximo ciclo.'},
+  {idx:11,phase:'Executar → Transformar',how:'Leia o cronograma como uma trilha flexível de 30 dias. O plano não é corrida: repita uma fase quando a escala ou a vida pedirem.',advance:'Ao terminar um ciclo, faça a revisão trimestral.'},
+  {idx:12,phase:'Manutenção',how:'A cada três meses, procure sinais de ajuste: gatilhos, meta mínima, recompensa, identidade e ambiente. Ajustar é diferente de recomeçar.',advance:'Depois de revisar, registre os check-ins mais longos.'},
+  {idx:13,phase:'Manutenção',how:'Marque quatro check-ins ao longo do ano para não depender de uma crise para perceber que algo mudou.',advance:'Volte à ferramenta que fizer sentido. A trilha é recorrente, não uma lista para vencer.'}
+];
+
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){if(e.name==='QuotaExceededError')toast('Armazenamento cheio — exporte e apague notas antigas');else toast('Não foi possível salvar — armazenamento indisponível')}}
 function exportData(){try{state.toolMeta.lastBackup=new Date().toISOString();save();const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='metodo-reset-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast('Backup exportado');updateBackupHint()}catch(e){toast('Não foi possível exportar')}}
 function importData(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(!parsed||typeof parsed!=='object')throw new Error('formato inválido');if(!confirm('Importar vai substituir tudo que está salvo neste dispositivo agora (leitura, ferramentas, diário, plano). Continuar?')){document.getElementById('import-file').value='';return}state=parsed;state.done=state.done||{};state.forms=state.forms||{};state.reminder=state.reminder||{enabled:false,time:'20:00',lastShown:null};state.journal=state.journal||[];state.profile=state.profile||null;state.plan30=state.plan30||{days:{},startedAt:null,completedAt:null};state.financeCalc=state.financeCalc||{renda:0,essenciais:{moradia:0,alimentacao:0,transporte:0,saude:0,outros:0},cortaveis:[{nome:'Streaming',valor:0},{nome:'Delivery',valor:0},{nome:'Outros',valor:0}],colchaoAtual:0,decisoes:''};state.history=state.history||{sintomas:[],prontidao:[],fisico:[],emocoes:[]};state.toolMeta=state.toolMeta||{lastBackup:null};state.streak=state.streak||{lastDate:null,current:0,max:0,dates:[]};state.tour=state.tour||{seen:false,step:0};journalEdit=null;journalMood=null;save();render();updateBackupHint();toast('Dados importados — '+ (state.journal.length||0) +' notas, '+Object.keys(state.done).length+' capítulos')}catch(e){toast('Arquivo inválido — '+e.message)}document.getElementById('import-file').value=''};reader.onerror=()=>{toast('Erro ao ler o arquivo');document.getElementById('import-file').value=''};reader.readAsText(file)}
@@ -303,20 +350,31 @@ function numberedChaptersCount(){return allChapters().filter(x=>/^Cap[ií]tulo\s
 function totalChaptersCount(){return allChapters().length}
 function chapterId(pi,ci){return pi+'-'+ci}
 function getTool(title){return toolDefs.find(x=>title.toLowerCase().includes(x.match.toLowerCase()))}
-function toolHasData(key){const f=state.forms[key];if(!f)return false;return Object.values(f).some(v=>v===true||(typeof v==='string'&&v.trim()!==''))}
+function toolHasData(key){
+  if(key==='tool6'){
+    const fc=state.financeCalc||{};const essenciais=fc.essenciais||{};const cortaveis=Array.isArray(fc.cortaveis)?fc.cortaveis:[];
+    const hasNumber=Number(fc.renda)>0||Number(fc.colchaoAtual)>0||Object.values(essenciais).some(v=>Number(v)>0)||cortaveis.some(c=>Number(c.valor)>0||((c.nome||'').trim()&& !['Streaming','Delivery','Outros'].includes(c.nome)));
+    return hasNumber||!!(fc.decisoes&&fc.decisoes.trim());
+  }
+  const f=state.forms[key];if(!f)return false;
+  return Object.values(f).some(v=>v===true||(typeof v==='string'&&v.trim()!==''));
+}
 function go(v,pi=0,ci=0){current={view:v,part:pi,chapter:ci};render();window.scrollTo({top:0,behavior:'smooth'});if(window.innerWidth<801)closeMenu()}
 function toggleMenu(){const e=document.getElementById('side');const o=document.getElementById('mobile-overlay');const isOpen=e.style.display==='block';if(isOpen){closeMenu()}else{e.style.display='block';e.style.position='fixed';e.style.zIndex='20';e.style.left='0';e.style.top='0';o.classList.add('show')}}
 function closeMenu(){const e=document.getElementById('side');const o=document.getElementById('mobile-overlay');e.style.display='none';o.classList.remove('show')}
 function progress(){const all=allChapters();if(!all.length)return 0;const doneCount=all.filter(x=>state.done[chapterId(x.pi,x.ci)]).length;return Math.round(doneCount/all.length*100)}
+function getReadingTarget(){const all=allChapters();return all.find(x=>!state.done[chapterId(x.pi,x.ci)])||null}
+function openReading(){const target=getReadingTarget();if(target)go('chapter',target.pi,target.ci);else go('chapters')}
+function getReadingLabel(){const pct=progress();if(pct===0)return 'Começar a leitura';if(pct===100)return 'Revisar o livro';return 'Continuar a leitura'}
 function todayStr(){return new Date().toISOString().slice(0,10)}
 function updateStreak(){const today=todayStr();const last=state.streak.lastDate;if(last===today)return;const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);const yStr=yesterday.toISOString().slice(0,10);if(last===yStr){state.streak.current+=1}else if(last!==today){if(last===null){state.streak.current=1}else{const diff=Math.floor((new Date(today)-new Date(last))/86400000);if(diff===1){state.streak.current+=1}else if(diff>1){state.streak.current=1}}}state.streak.lastDate=today;if(!state.streak.dates.includes(today))state.streak.dates.push(today);if(state.streak.dates.length>60)state.streak.dates=state.streak.dates.slice(-60);if(state.streak.current>state.streak.max)state.streak.max=state.streak.current;save()}
 function getStreak(){return state.streak.current||0}
 function getMaxStreak(){return state.streak.max||0}
 function getCurrentPlanDay(){const days=Object.keys(state.plan30.days).map(n=>parseInt(n)).sort((a,b)=>a-b);if(!days.length)return 1;const lastDone=days.filter(d=>{const ds=state.plan30.days[d];return ds.tasks.filter(Boolean).length===PLAN_30_DAYS.find(p=>p.day===d).tasks.length}).length;return Math.min(30,lastDone+1)}
 function getPlanProgress(){const totalTasks=PLAN_30_DAYS.reduce((a,d)=>a+d.tasks.length,0);const done=Object.values(state.plan30.days).reduce((a,d)=>a+(d.tasks?d.tasks.filter(Boolean).length:0),0);return {done,total:totalTasks,pct:Math.round(done/totalTasks*100)}}
-function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===current.view));const app=document.getElementById('app');if(current.view==='home')app.innerHTML=home();else if(current.view==='chapters')app.innerHTML=chapters();else if(current.view==='tools')app.innerHTML=tools();else if(current.view==='tool')app.innerHTML=toolPage(current.part);else if(current.view==='journal')app.innerHTML=journal();else if(current.view==='plan')app.innerHTML=planView();else app.innerHTML=readChapter();wireForms();updateBackupHint();updateStreak();checkCelebration()}
+function render(){const activeView=current.view==='chapter'?'chapters':current.view==='tool'?'tools':current.view;document.querySelectorAll('.nav button,.mobile-nav button').forEach(b=>{const active=b.dataset.view===activeView;b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});const app=document.getElementById('app');if(current.view==='home')app.innerHTML=home();else if(current.view==='chapters')app.innerHTML=chapters();else if(current.view==='tools')app.innerHTML=tools();else if(current.view==='tool')app.innerHTML=toolPage(current.part);else if(current.view==='journal')app.innerHTML=journal();else if(current.view==='plan')app.innerHTML=planView();else app.innerHTML=readChapter();wireForms();updateBackupHint();updateStreak();checkCelebration()}
 function toggleExtra(id,btn){const el=document.getElementById(id);const open=el.style.display!=='none';el.style.display=open?'none':'block';btn.textContent=open?btn.dataset.moreLabel:'− Mostrar menos campos'}
-function saveFormField(key,field,val){state.forms[key]=state.forms[key]||{};state.forms[key][field]=val;save();updateStreak()}
+function saveFormField(key,field,val){state.forms[key]=state.forms[key]||{};state.forms[key][field]=val;save();updateStreak();refreshNextToolSuggestion(key)}
 function saveFormCheck(key,idx,checked){state.forms[key]=state.forms[key]||{};state.forms[key]['c'+idx]=checked;save();updateStreak();if(key.startsWith('tool')){const toolIdx=parseInt(key.replace('tool',''));const def=toolDefs[toolIdx];if(def&&def.custom==='checklist'){saveHistory('sintomas',{date:new Date().toISOString(),score:Object.values(state.forms[key]).filter(v=>v===true).length})}if(def&&def.custom==='prontidao'){saveHistory('prontidao',{date:new Date().toISOString(),score:Object.values(state.forms[key]).filter(v=>v===true).length})}}}
 function saveHistory(type,entry){state.history[type]=state.history[type]||[];state.history[type].push(entry);if(state.history[type].length>30)state.history[type]=state.history[type].slice(-30);save()}
 
@@ -333,7 +391,7 @@ function renderMatrizTool(t,key){const saved=state.forms[key]||{};const filled=O
 <div class="field-extra" id="ex-${key}" style="display:${saved.padrao?'block':'none'}"><label>🔁 Versão avançada — Essa interpretação já apareceu antes em outras situações?</label><textarea data-form="${esc(key)}" data-field="padrao" placeholder="Quando mais senti isso? Isso sugere padrão interno, não fato sobre hoje.">${esc(saved.padrao||'')}</textarea></div>
 <button type="button" class="field-toggle" data-more-label="+ Versão avançada (padrão recorrente)" onclick="toggleExtra('ex-${key}',this)">${saved.padrao?'− Mostrar menos':'+ Versão avançada (padrão recorrente)'}</button>
 <div class="save-note">Salvo automaticamente. Preencha quando uma nova onda de sofrimento vier — é prática recorrente, não evento único.</div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function idxFromKey(key){if(key.startsWith('tool'))return parseInt(key.replace('tool',''));return -1}
 
@@ -342,19 +400,19 @@ function renderChecklistTool(t,key){const saved=state.forms[key]||{};const check
 ${checks.map((x,i)=>`<label class="check"><input type="checkbox" data-form="${esc(key)}" data-check="${i}" ${saved['c'+i]?'checked':''}>${esc(x)}</label>`).join('')}
 <div class="disclaimer" style="margin-top:14px">Se marcar 5+ por várias semanas, ou tiver pensamentos de se machucar, busque ajuda profissional imediata. <button class="ghost" style="margin-top:8px" onclick="openHelp()">🆘 Ver contatos de ajuda</button></div>
 <div class="save-note">Histórico: ${(state.history.sintomas||[]).slice(-3).map(h=>new Date(h.date).toLocaleDateString('pt-BR')+': '+h.score+'/8').join(' • ')||'nenhum ainda'}</div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderProntidaoTool(t,key){const saved=state.forms[key]||{};const checks=t.checks||[];const score=checks.filter((_,i)=>saved['c'+i]).length;let phase='';let desc='';if(score<=2){phase='Estabilização de emergência';desc='Foque em sono, movimento, alimentação, luz e uma pessoa para conversar. Não é hora de 6 hábitos novos.'}else if(score<=3){phase='Transição';desc='Base começando a estabilizar. Mantenha os 4 pilares e comece a observar pensamentos.'}else{phase='Pronto para reconstrução ativa';desc='Você tem base para sistematizar 1 hábito por vez com o Construtor de Hábito.'}return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="card" style="margin:14px 0;background:var(--bg)"><div class="big">${score}/5</div><div style="font-weight:700;color:var(--cream)">${phase}</div><div class="muted" style="font-size:13px;margin-top:6px">${desc}</div><div class="progress"><i style="width:${score/5*100}%"></i></div></div>
 ${checks.map((x,i)=>`<label class="check"><input type="checkbox" data-form="${esc(key)}" data-check="${i}" ${saved['c'+i]?'checked':''}>${esc(x)}</label>`).join('')}
 <div class="actions" style="margin-top:12px"><button class="ghost" onclick="go('tool',3)">Ir para Painel Físico →</button><button class="ghost" onclick="go('tool',8)">Ir para Construtor de Hábito →</button></div>
 <div class="save-note">Responda a cada 2-3 semanas. Histórico: ${(state.history.prontidao||[]).slice(-3).map(h=>new Date(h.date).toLocaleDateString('pt-BR')+': '+h.score+'/5').join(' • ')||'nenhum'}</div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderFisicoTool(t,key){const saved=state.forms[key]||{};const pilares=[{k:'sono',label:'🌙 Sono',ph:'Ex: Deitar até 01h mesmo sem sono, 5-6h'},{k:'movimento',label:'🏃 Movimento',ph:'Ex: 15 min caminhada, devagar'},{k:'alimentacao',label:'🥗 Alimentação',ph:'Ex: 1 refeição completa sentado'},{k:'luz',label:'☀️ Luz natural',ph:'Ex: 10 min luz manhã'}];const doneCount=pilares.filter(p=>saved[p.k]&&saved[p.k].trim()!=='').length;return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="finance-grid">${pilares.map(p=>`<div class="finance-card"><div style="font-weight:700;color:var(--cream)">${p.label}</div><input type="text" data-form="${esc(key)}" data-field="${p.k}" value="${esc(saved[p.k]||'')}" placeholder="${esc(p.ph)}" style="margin-top:8px"><label class="check" style="margin-top:8px"><input type="checkbox" data-form="${esc(key)}" data-check="${p.k}" ${saved['c_'+p.k]?'checked':''}>Feito hoje</label></div>`).join('')}</div>
 <div class="card" style="background:var(--bg);margin-top:12px"><div class="muted">Hoje: ${doneCount}/4 pilares</div><div class="progress"><i style="width:${doneCount/4*100}%"></i></div><div class="progress-note">Meta mínima viável: menor versão que ainda conta como sucesso num dia difícil. Direção > perfeição.</div></div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderDistanciamentoTool(t,key){const saved=state.forms[key]||{};return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="card" style="background:var(--bg);margin:12px 0"><div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">5 passos para reduzir poder automático</div><div class="habit-loop"><div class="loop-item">Situação</div><div class="loop-arrow">→</div><div class="loop-item">Pensamento</div><div class="loop-arrow">→</div><div class="loop-item">Evidências</div><div class="loop-arrow">→</div><div class="loop-item">Alternativo</div></div></div>
@@ -363,7 +421,7 @@ function renderDistanciamentoTool(t,key){const saved=state.forms[key]||{};return
 <div class="grid"><div><label>3️⃣ Evidência a favor</label><textarea data-form="${esc(key)}" data-field="favor" placeholder="Fatos reais que sustentam">${esc(saved.favor||'')}</textarea></div><div><label>4️⃣ Evidência contra</label><textarea data-form="${esc(key)}" data-field="contra" placeholder="Fatos reais que contradizem — propostas, apoio, tempo">${esc(saved.contra||'')}</textarea></div></div>
 <label>5️⃣ Pensamento alternativo (mais completo, não só bonito)</label><textarea data-form="${esc(key)}" data-field="alternativo" placeholder="Ex: Estou em fase difícil, sem rumo definido, mas tenho 2 propostas não respondidas — não estou parado, estou em fase diferente">${esc(saved.alternativo||'')}</textarea>
 <label>🎯 Ação pequena que combina com essa leitura</label><input type="text" data-form="${esc(key)}" data-field="acao" value="${esc(saved.acao||'')}" placeholder="Ex: Responder 1 proposta hoje">
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderEmocoesTool(t,key){const saved=state.forms[key]||{};const selectedEmotion=saved.emocao||'';const intensidade=saved.intensidade||5;return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="muted" style="font-size:13px;margin:12px 0 6px">1. Escolha a emoção principal na roda:</div>
@@ -375,7 +433,7 @@ ${selectedEmotion?`<div class="card" style="background:var(--bg);margin:10px 0">
 <label>💧 Do que essa emoção pode estar precisando?</label><textarea data-form="${esc(key)}" data-field="necessidade" placeholder="Ex: Descanso, limite, conversa, segurança">${esc(saved.necessidade||'')}</textarea>
 <label>🌿 Qual cuidado possível agora?</label><textarea data-form="${esc(key)}" data-field="cuidado" placeholder="Ex: Caminhar 10 min, ligar para irmão, escrever">${esc(saved.cuidado||'')}</textarea>
 <label>🤝 Quem pode apoiar? (opcional)</label><input type="text" data-form="${esc(key)}" data-field="apoio" value="${esc(saved.apoio||'')}" placeholder="Ex: Irmão, amigo">
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderFinanceiroTool(t,key){const fc=state.financeCalc;const essenciaisTotal=Object.values(fc.essenciais).reduce((a,b)=>a+(parseFloat(b)||0),0);const cortaveisTotal=fc.cortaveis.reduce((a,b)=>a+(parseFloat(b.valor)||0),0);const saldo=(parseFloat(fc.renda)||0)-essenciaisTotal;const colchaoMeta=essenciaisTotal;const falta=colchaoMeta-(parseFloat(fc.colchaoAtual)||0);return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="finance-grid" style="margin-top:14px">
@@ -391,12 +449,12 @@ ${fc.cortaveis.map((c,i)=>`<div class="finance-input-group"><div><input type="te
 <div class="card" style="background:var(--bg);margin-top:10px"><div style="display:flex;justify-content:space-between"><span class="muted">Economia potencial com cortes:</span><b style="color:var(--success)">R$ ${cortaveisTotal.toFixed(2)}/mês</b></div><div class="muted" style="font-size:12px;margin-top:6px">Projeção 3 meses: R$ ${(cortaveisTotal*3).toFixed(2)}</div></div>
 <label>💰 Colchão atual — quanto já tem guardado?</label><input type="number" inputmode="decimal" placeholder="R$ 0,00" value="${fc.colchaoAtual||''}" oninput="updateFinance('colchaoAtual',this.value)">
 <label>⏸️ Decisão financeira grande em espera</label><textarea placeholder="Ex: Investir rescisão em franquia — esperar até Escala 4-5/5" oninput="updateFinance('decisoes',this.value)">${esc(fc.decisoes||'')}</textarea>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderIntegradoTool(t,key){const saved=state.forms[key]||{};const areas=[{k:'fisico',label:'💪 Físico',q:'Sono, movimento, alimentação, luz — de 0 a 4, quantos hoje?'},{k:'mental',label:'🧠 Mental',q:'Pensamento automático recorrente? Ficha aplicada?'},{k:'emocional',label:'❤️ Emocional',q:'Emoção predominante e intensidade'},{k:'financeiro',label:'💰 Financeiro',q:'Colchão e decisão em espera'}];return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="finance-grid">${areas.map(a=>`<div class="finance-card"><div style="font-weight:700;color:var(--cream)">${a.label}</div><div class="muted" style="font-size:11px;margin:4px 0">${a.q}</div><textarea data-form="${esc(key)}" data-field="${a.k}" placeholder="Como está hoje?">${esc(saved[a.k]||'')}</textarea></div>`).join('')}</div>
 <div class="card" style="background:var(--bg);margin-top:12px"><div style="font-weight:700;color:var(--cream)">🔗 Conexões entre áreas</div><div class="muted" style="font-size:13px">Pior semana emocional coincidiu com sono irregular? Gastos por impulso vieram após noite mal dormida? Ver lado a lado revela padrão que páginas separadas escondem.</div><label>Observação de conexão dessa semana</label><textarea data-form="${esc(key)}" data-field="conexao" placeholder="Ex: Quando durmo mal, irritabilidade sobe e gasto mais">${esc(saved.conexao||'')}</textarea></div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderHabitoTool(t,key){const saved=state.forms[key]||{};return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="habit-loop"><div class="loop-item"><div style="font-size:11px;color:var(--gold)">GATILHO</div><div style="font-weight:700;color:var(--cream)">Depois de...</div></div><div class="loop-arrow">→</div><div class="loop-item"><div style="font-size:11px;color:var(--gold)">ROTINA</div><div style="font-weight:700;color:var(--cream)">Eu faço</div></div><div class="loop-arrow">→</div><div class="loop-item"><div style="font-size:11px;color:var(--gold)">RECOMPENSA</div><div style="font-weight:700;color:var(--cream)">Ganho</div></div></div>
@@ -407,7 +465,7 @@ function renderHabitoTool(t,key){const saved=state.forms[key]||{};return `<div c
 <label>🛡️ Meta mínima viável (menor versão que ainda conta)</label><input type="text" data-form="${esc(key)}" data-field="minimo" value="${esc(saved.minimo||'')}" placeholder="Ex: Abrir livro e ler 1 página">
 <label>📊 Métrica — pergunta sim/não por dia</label><input type="text" data-form="${esc(key)}" data-field="metrica" value="${esc(saved.metrica||'')}" placeholder="Ex: Eu li hoje, mesmo que só 1 página?">
 <div class="card" style="background:var(--bg);margin-top:12px"><div style="font-weight:700;color:var(--cream)">📅 Tracker 21 dias — regra de ouro: só adicione 2º hábito após 2-3 semanas de consistência</div><div class="calendar-grid">${Array(21).fill(0).map((_,i)=>`<div class="calendar-cell ${saved['d'+i]?'done':''}" onclick="toggleHabitoDay('${key}',${i})">${i+1}</div>`).join('')}</div><div class="muted" style="font-size:11px">${Object.keys(saved).filter(k=>k.startsWith('d')&&saved[k]).length}/21 dias • Clique para marcar</div></div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderRecaidaTool(t,key){const saved=state.forms[key]||{};return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="card" style="background:var(--bg);margin:12px 0;border-left:3px solid var(--care)"><div style="font-weight:700;color:var(--cream)">⚠️ Efeito violação da abstinência: "Já que falhei, tanto faz continuar falhando"</div><div class="muted" style="font-size:13px">Transforma deslize pequeno em recaída completa. Antídoto: nomear fato, gatilho, retomar mínimo HOJE.</div></div>
@@ -415,51 +473,73 @@ function renderRecaidaTool(t,key){const saved=state.forms[key]||{};return `<div 
 <label>2️⃣ Gatilho da recaída — o que mudou no ambiente/rotina/emocional?</label><textarea data-form="${esc(key)}" data-field="gatilho" placeholder="Ex: Semana estressante + aniversário de casamento que não existe mais">${esc(saved.gatilho||'')}</textarea>
 <label>3️⃣ Menor retomada possível nas próximas 24h — pela meta mínima, não nível anterior</label><textarea data-form="${esc(key)}" data-field="retomar" placeholder="Ex: Abrir livro e ler 1 página hoje à noite">${esc(saved.retomar||'')}</textarea>
 <label>🤝 Quem pode apoiar? (opcional)</label><input type="text" data-form="${esc(key)}" data-field="apoio" value="${esc(saved.apoio||'')}" placeholder="Ex: Irmão">
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderCartaTool(t,key){const saved=state.forms[key]||{};return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <label>💌 Sua carta — escreva para você do início da queda</label><textarea data-form="${esc(key)}" data-field="carta" style="min-height:140px" placeholder="Querido eu do sofá, daquela primeira semana...">${esc(saved.carta||'')}</textarea>
 <div class="grid" style="margin-top:12px"><div><label>🧠 O que entendo agora que não entendia?</label><textarea data-form="${esc(key)}" data-field="aprendizado" placeholder="Ex: Que separar fato de interpretação tira peso">${esc(saved.aprendizado||'')}</textarea></div><div><label>🛠️ Ferramentas que fizeram diferença</label><textarea data-form="${esc(key)}" data-field="ferramentas" placeholder="Ex: Matriz, caminhada 15 min, mapa emoções">${esc(saved.ferramentas||'')}</textarea></div></div>
 <label>🔄 Como lidei com recaídas sem voltar à estaca zero?</label><textarea data-form="${esc(key)}" data-field="recaida" placeholder="Ex: No 10º mês falhei 7 dias, retomei por 1 página">${esc(saved.recaida||'')}</textarea>
 <label>🌟 Frase final que resume a diferença</label><input type="text" data-form="${esc(key)}" data-field="frase" value="${esc(saved.frase||'')}" placeholder="Ex: Você não vai voltar a ser quem era — vai se tornar alguém mais sólido">
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderCronogramaTool(t,key){const saved=state.forms[key]||{};return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 ${t.checks.map((x,i)=>`<label class="check"><input type="checkbox" data-form="${esc(key)}" data-check="${i}" ${saved['c'+i]?'checked':''}>${esc(x)}</label>`).join('')}
 <div class="card" style="background:var(--bg);margin-top:12px"><div style="font-weight:700;color:var(--cream)">📅 Quer tracker diário real? Vá para Plano de 30 Dias</div><div class="muted" style="font-size:13px">Lá tem 30 dias com tarefas diárias, progresso e streak — versão interativa deste cronograma.</div><button class="primary" style="margin-top:10px" onclick="go('plan')">Abrir Plano 30 Dias →</button></div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderRevisaoTool(t,key){const saved=state.forms[key]||{};const qs=[{k:'gatilhos',q:'Gatilhos ainda automáticos ou enfraqueceram com mudança de rotina?',h:'Ex: Mudou banho para noite, empurrou escovação e leitura para mais tarde'},{k:'meta',q:'Meta mínima ainda é realmente mínima ou cresceu silenciosamente?',h:'Ex: De 10 para 25 págs sem perceber'},{k:'recompensa',q:'Recompensa ainda reforça ou perdeu efeito?',h:'Ex: X no calendário já não empolga'},{k:'metrica',q:'Métrica com honestidade ou virou ritual vazio?',h:'Ex: Marco sim mesmo sem fazer'},{k:'estabilizacao',q:'Alguma área de estabilização regrediu?',h:'Ex: Sono, movimento, alimentação, luz'},{k:'padrao',q:'Padrão antigo ressurgindo sutil?',h:'Ex: "Não sou suficiente" voltando'},{k:'identidade',q:'Identidade sendo reforçada ou dada como certa?',h:'Ex: Já não penso "sou alguém que lê"'},{k:'ambiente',q:'O que mudou no ambiente/vida que exige ajuste?',h:'Ex: Novo trabalho, mudança casa'}];return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="card" style="background:var(--bg);margin:12px 0"><div style="font-weight:700;color:var(--cream)">🔧 Revisar é mais barato que recomeçar</div><div class="muted" style="font-size:13px">Estagnação não é fracasso — é sinal de ajuste pontual. Responda com curiosidade, não autocrítica.</div></div>
 ${qs.map(item=>`<label>${esc(item.q)}</label><textarea data-form="${esc(key)}" data-field="${item.k}" placeholder="${esc(item.h)}">${esc(saved[item.k]||'')}</textarea>`).join('')}
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function renderManutencaoTool(t,key){const saved=state.forms[key]||{};const quarters=[{k:'q1',label:'Check-in 1 — 3 meses',date:'+3 meses'},{k:'q2',label:'Check-in 2 — 6 meses',date:'+6 meses'},{k:'q3',label:'Check-in 3 — 9 meses',date:'+9 meses'},{k:'q4',label:'Check-in 4 — 12 meses',date:'+12 meses'}];return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>
 <div class="quarter-grid">${quarters.map(q=>`<div class="quarter-card"><div style="font-weight:700;color:var(--cream)">${q.label}</div><div class="muted" style="font-size:11px">${q.date}</div><textarea data-form="${esc(key)}" data-field="${q.k}" style="margin-top:8px;min-height:80px" placeholder="Data: __/__/__&#10;Físico: &#10;Mental: &#10;Emocional: &#10;Financeiro: &#10;Ajuste simples?">${esc(saved[q.k]||'')}</textarea><label class="check"><input type="checkbox" data-form="${esc(key)}" data-check="${q.k}" ${saved['c_'+q.k]?'checked':''}>Concluído</label></div>`).join('')}</div>
-${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
-function renderNextToolSuggestion(currentIdx){
-  if(currentIdx<0)return '';
-  const order=[0,1,2,3,4,5,6,7,8,9,10,12,13];
-  const pos=order.indexOf(currentIdx);
-  if(pos<0||pos>=order.length-1)return '';
-  for(let i=pos+1;i<order.length;i++){
-    const nextIdx=order[i];
-    if(!toolHasData('tool'+nextIdx)){
-      const nt=toolDefs[nextIdx];
-      return `<div class="card" style="background:var(--bg);margin-top:16px;border:1px dashed var(--gold-deep)"><div style="font-weight:700;color:var(--cream)">💡 Próxima sugestão inteligente</div><div class="muted" style="font-size:13px">Você completou ${esc(toolDefs[currentIdx].title)}. Que tal ir para <b style="color:var(--gold-soft)">${esc(nt.title)}</b> agora? ${esc(nt.intro)}</div><button class="primary" style="margin-top:10px" onclick="go('tool',${nextIdx})">Ir para ${esc(nt.title)} →</button></div>`;
-    }
+function nextToolSuggestionId(key){return 'next-tool-suggestion-'+String(key||'').replace(/[^a-z0-9_-]/gi,'-')}
+function getBookToolEntry(idx){return BOOK_TOOL_SEQUENCE.find(item=>item.idx===idx)||null}
+function getNextBookToolEntry(currentIdx){
+  const pos=BOOK_TOOL_SEQUENCE.findIndex(item=>item.idx===currentIdx);
+  if(pos<0)return null;
+  for(let i=pos+1;i<BOOK_TOOL_SEQUENCE.length;i++){
+    const item=BOOK_TOOL_SEQUENCE[i];
+    if(!toolHasData('tool'+item.idx))return item;
   }
-  return `<div class="card" style="background:var(--success-bg);border-color:var(--success);margin-top:16px"><div style="font-weight:700;color:var(--cream)">🎉 Você avançou muito nas ferramentas!</div><div class="muted" style="font-size:13px">Que tal revisar o Plano de 30 Dias ou escrever uma Carta ao Eu Anterior?</div><div class="actions" style="margin-top:10px"><button class="ghost" onclick="go('plan')">Plano 30 dias</button><button class="ghost" onclick="go('tool',10)">Carta</button></div></div>`;
+  return null;
+}
+function getFirstPendingBookTool(){return BOOK_TOOL_SEQUENCE.find(item=>!toolHasData('tool'+item.idx))||null}
+function getFirstPendingBookToolIndex(){const item=getFirstPendingBookTool();return item?item.idx:-1}
+function openNextBookTool(){const idx=getFirstPendingBookToolIndex();if(idx>-1)go('tool',idx);else go('plan')}
+function renderNextToolSuggestion(currentIdx,key){
+  if(currentIdx<0)return '';
+  const id=nextToolSuggestionId(key);
+  let content='';
+  const currentStarted=toolHasData('tool'+currentIdx);
+  const next=getNextBookToolEntry(currentIdx);
+  if(currentStarted&&next){
+    const nt=toolDefs[next.idx];
+    content=`<div class="card" style="background:var(--bg);border:1px dashed var(--gold-deep)"><div style="font-weight:700;color:var(--cream)">💡 Próxima etapa do livro</div><div class="muted" style="font-size:13px">Você já começou <b style="color:var(--gold-soft)">${esc(toolDefs[currentIdx].title)}</b>. Quando fizer sentido, siga para <b style="color:var(--gold-soft)">${esc(nt.title)}</b>: ${esc(next.how)}</div><button class="primary" style="margin-top:10px" onclick="go('tool',${next.idx})">Ir para ${esc(nt.title)} →</button></div>`;
+  }else if(currentStarted){
+    content=`<div class="card" style="background:var(--success-bg);border-color:var(--success)"><div style="font-weight:700;color:var(--cream)">🎉 Você percorreu a trilha principal do livro</div><div class="muted" style="font-size:13px">Agora revise o que ainda precisar, abra o Plano de 30 Dias ou volte à ferramenta que combina com o seu momento.</div><div class="actions" style="margin-top:10px"><button class="ghost" onclick="go('plan')">Plano de 30 dias</button><button class="ghost" onclick="go('tools')">Ver ferramentas</button></div></div>`;
+  }
+  return `<div id="${id}" class="next-tool-suggestion">${content}</div>`;
+}
+function refreshNextToolSuggestion(key){
+  if(!key||!key.startsWith('tool'))return;
+  const currentIdx=idxFromKey(key);const old=document.getElementById(nextToolSuggestionId(key));
+  if(!old)return;
+  const holder=document.createElement('div');holder.innerHTML=renderNextToolSuggestion(currentIdx,key);
+  const next=holder.firstElementChild;if(next)old.replaceWith(next);
 }
 
-function renderTool(t,key){const custom=t.custom;if(custom==='matriz')return renderMatrizTool(t,key);if(custom==='checklist')return renderChecklistTool(t,key);if(custom==='prontidao')return renderProntidaoTool(t,key);if(custom==='fisico')return renderFisicoTool(t,key);if(custom==='distanciamento')return renderDistanciamentoTool(t,key);if(custom==='emocoes')return renderEmocoesTool(t,key);if(custom==='financeiro')return renderFinanceiroTool(t,key);if(custom==='integrado')return renderIntegradoTool(t,key);if(custom==='habito')return renderHabitoTool(t,key);if(custom==='recaida')return renderRecaidaTool(t,key);if(custom==='carta')return renderCartaTool(t,key);if(custom==='cronograma')return renderCronogramaTool(t,key);if(custom==='revisao')return renderRevisaoTool(t,key);if(custom==='manutencao')return renderManutencaoTool(t,key);const saved=state.forms[key]||{};let inside='';if(t.fields){const rf=f=>f[2]==='textarea'?`<label>${esc(f[1])}<textarea data-form="${esc(key)}" data-field="${esc(f[0])}">${esc(saved[f[0]]||'')}</textarea></label>`:`<label>${esc(f[1])}<input type="text" data-form="${esc(key)}" data-field="${esc(f[0])}" value="${esc(saved[f[0]]||'')}"></label>`;const visible=t.fields.slice(0,3),extra=t.fields.slice(3);inside=visible.map(rf).join('');if(extra.length){const eid='ex-'+key.replace(/[^a-z0-9]/gi,'');const hasData=extra.some(f=>saved[f[0]]);inside+=`<div class="field-extra" id="${eid}" style="display:${hasData?'block':'none'}">${extra.map(rf).join('')}</div><button type="button" class="field-toggle" data-more-label="+ Mostrar mais ${extra.length} campo${extra.length>1?'s':''} (opcional)" onclick="toggleExtra('${eid}',this)">${hasData?'− Mostrar menos campos':'+ Mostrar mais '+extra.length+' campo'+(extra.length>1?'s':'')+' (opcional)'}</button>`}}if(t.checks)inside+=t.checks.map((x,i)=>`<label class="check"><input type="checkbox" data-form="${esc(key)}" data-check="${i}" ${saved['c'+i]?'checked':''}>${esc(x)}</label>`).join('');return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>${inside}<div class="save-note">Salvo automaticamente neste dispositivo.</div>${renderNextToolSuggestion(idxFromKey(key))}</div>`}
+
+function renderTool(t,key){const custom=t.custom;if(custom==='matriz')return renderMatrizTool(t,key);if(custom==='checklist')return renderChecklistTool(t,key);if(custom==='prontidao')return renderProntidaoTool(t,key);if(custom==='fisico')return renderFisicoTool(t,key);if(custom==='distanciamento')return renderDistanciamentoTool(t,key);if(custom==='emocoes')return renderEmocoesTool(t,key);if(custom==='financeiro')return renderFinanceiroTool(t,key);if(custom==='integrado')return renderIntegradoTool(t,key);if(custom==='habito')return renderHabitoTool(t,key);if(custom==='recaida')return renderRecaidaTool(t,key);if(custom==='carta')return renderCartaTool(t,key);if(custom==='cronograma')return renderCronogramaTool(t,key);if(custom==='revisao')return renderRevisaoTool(t,key);if(custom==='manutencao')return renderManutencaoTool(t,key);const saved=state.forms[key]||{};let inside='';if(t.fields){const rf=f=>f[2]==='textarea'?`<label>${esc(f[1])}<textarea data-form="${esc(key)}" data-field="${esc(f[0])}">${esc(saved[f[0]]||'')}</textarea></label>`:`<label>${esc(f[1])}<input type="text" data-form="${esc(key)}" data-field="${esc(f[0])}" value="${esc(saved[f[0]]||'')}"></label>`;const visible=t.fields.slice(0,3),extra=t.fields.slice(3);inside=visible.map(rf).join('');if(extra.length){const eid='ex-'+key.replace(/[^a-z0-9]/gi,'');const hasData=extra.some(f=>saved[f[0]]);inside+=`<div class="field-extra" id="${eid}" style="display:${hasData?'block':'none'}">${extra.map(rf).join('')}</div><button type="button" class="field-toggle" data-more-label="+ Mostrar mais ${extra.length} campo${extra.length>1?'s':''} (opcional)" onclick="toggleExtra('${eid}',this)">${hasData?'− Mostrar menos campos':'+ Mostrar mais '+extra.length+' campo'+(extra.length>1?'s':'')+' (opcional)'}</button>`}}if(t.checks)inside+=t.checks.map((x,i)=>`<label class="check"><input type="checkbox" data-form="${esc(key)}" data-check="${i}" ${saved['c'+i]?'checked':''}>${esc(x)}</label>`).join('');return `<div class="toolbox"><h4>✦ ${esc(t.title)}</h4><div class="muted">${esc(t.intro)}</div>${inside}<div class="save-note">Salvo automaticamente neste dispositivo.</div>${renderNextToolSuggestion(idxFromKey(key),key)}</div>`}
 
 function selectEmotion(key,emo){saveFormField(key,'emocao',emo);const sub=EMOTION_WHEEL.find(e=>e.key===emo)?.subs?.[0]||'';if(!state.forms[key].subemocao)saveFormField(key,'subemocao',sub);render()}
 function selectSubEmotion(key,sub){saveFormField(key,'subemocao',sub);render();toast('Sub-emoção: '+sub)}
-function updateFinance(field,val){state.financeCalc[field]=val;save();render()}
-function updateFinanceEssencial(k,val){state.financeCalc.essenciais[k]=val;save();render()}
-function updateFinanceCortavel(i,field,val){state.financeCalc.cortaveis[i][field]=val;save();render()}
+function updateFinance(field,val){state.financeCalc[field]=val;save();updateStreak();render()}
+function updateFinanceEssencial(k,val){state.financeCalc.essenciais[k]=val;save();updateStreak();render()}
+function updateFinanceCortavel(i,field,val){state.financeCalc.cortaveis[i][field]=val;save();updateStreak();render()}
 function toggleHabitoDay(key,i){state.forms[key]=state.forms[key]||{};state.forms[key]['d'+i]=!state.forms[key]['d'+i];save();render();toast(state.forms[key]['d'+i]?'Dia '+(i+1)+' marcado ✓':'Desmarcado')}
 function togglePlanTask(day,taskIdx){
   state.plan30.days[day]=state.plan30.days[day]||{tasks:[]};
@@ -528,8 +608,15 @@ function showCelebrationScreen(){
   showConfetti();showConfetti();setTimeout(showConfetti,300);
 }
 
-function toolPage(idx){const t=toolDefs[idx];if(!t)return '<div class="empty">Ferramenta não encontrada.</div>';return `<button class="ghost back" onclick="go('tools')">← Ver todas as ferramentas</button><div class="card" style="max-width:720px;margin:0 auto"><div class="tool-recommend-banner">✦ Uma coisa de cada vez — preencha só o essencial, o resto pode esperar. Tudo salvo localmente.</div>${renderTool(t,'tool'+idx)}<div class="actions" style="margin-top:18px"><button class="secondary" onclick="go('tools')">Ver todas as ferramentas</button><button class="ghost" onclick="go('home')">Voltar ao início</button></div></div>`}
-function personalizedIntro(){if(!state.profile)return'';const m=MOTIVES.find(x=>x.key===state.profile.motive);if(!m)return'';const idx=toolDefs.findIndex(t=>t.title.toLowerCase().includes(m.toolMatch.toLowerCase()));return `<div class="welcome-card"><div class="eyebrow">Para você, ${esc(state.profile.name)}</div><h3>${m.icon} ${esc(m.label)}</h3><p class="muted" style="margin:0 0 12px">${esc(m.hint)}</p><div class="actions">${idx>-1?`<button class="primary" onclick="go('tool',${idx})">Abrir ferramenta sugerida →</button>`:''}<button class="ghost" onclick="openQuiz(true)">Refazer o quiz</button></div></div>`}
+function renderToolPath(idx){
+  const entry=getBookToolEntry(idx);if(!entry)return '';
+  const pos=BOOK_TOOL_SEQUENCE.findIndex(item=>item.idx===idx)+1;
+  const pending=getFirstPendingBookTool();
+  const pendingText=pending&&pending.idx===idx?'Esta é a próxima etapa indicada para você.':'Você pode voltar a qualquer etapa; a ordem acima é apenas a recomendação do livro.';
+  return `<div class="tool-path"><div class="tool-path-head"><span><span class="tool-path-kicker">Trilha do livro</span><br>${pos} de ${BOOK_TOOL_SEQUENCE.length} · ${esc(entry.phase)}</span><span class="muted" style="font-size:12px">${esc(pendingText)}</span></div><div class="progress"><i style="width:${pos/BOOK_TOOL_SEQUENCE.length*100}%"></i></div><p><strong>Como usar:</strong> ${esc(entry.how)}</p><p><strong>Quando avançar:</strong> ${esc(entry.advance)}</p></div>`;
+}
+function toolPage(idx){const t=toolDefs[idx];if(!t)return '<div class="empty">Ferramenta não encontrada.</div>';return `<button class="ghost back" onclick="go('tools')">← Ver todas as ferramentas</button>${renderToolPath(idx)}<div class="card" style="max-width:720px;margin:0 auto"><div class="tool-recommend-banner">✦ Uma coisa de cada vez — siga as dicas do livro, preencha só o essencial e avance quando fizer sentido. Tudo salvo localmente.</div>${renderTool(t,'tool'+idx)}<div class="actions" style="margin-top:18px"><button class="secondary" onclick="go('tools')">Ver todas as ferramentas</button><button class="ghost" onclick="go('home')">Voltar ao início</button></div></div>`}
+function personalizedIntro(){if(!state.profile)return'';const m=MOTIVES.find(x=>x.key===state.profile.motive);if(!m)return'';const idx=toolDefs.findIndex(t=>t.title.toLowerCase().includes(m.toolMatch.toLowerCase()));return `<div class="welcome-card"><div class="eyebrow">Seu contexto</div><h3>${m.icon} ${esc(m.label)}</h3><p class="muted" style="margin:0 0 12px">${esc(m.hint)} A leitura continua sendo o ponto de partida; as ferramentas entram como apoio no momento certo.</p><div class="actions">${idx>-1?`<button class="ghost" onclick="go('tool',${idx})">Ver ferramenta relacionada</button>`:''}<button class="ghost" onclick="openQuiz(true)">Ajustar meu perfil</button></div></div>`}
 
 function getHomeGreeting(){
   if(!state.profile)return null;
@@ -548,59 +635,53 @@ function getHomeGreeting(){
 }
 
 function home(){
-  const p=progress();const first=allChapters()[0];const planProg=getPlanProgress();const backupAge=state.toolMeta.lastBackup?Math.floor((Date.now()-new Date(state.toolMeta.lastBackup))/86400000):999;
+  const p=progress();const readingTarget=getReadingTarget();const planProg=getPlanProgress();const backupAge=state.toolMeta.lastBackup?Math.floor((Date.now()-new Date(state.toolMeta.lastBackup))/86400000):999;
   const greeting=getHomeGreeting();
   const nextTool=getNextToolSuggestion();
+  const nextToolClick=nextTool&&nextTool.idx>-1?`go('tool',${nextTool.idx})`:`go('plan')`;
   return `${personalizedIntro()}
   ${greeting?`<div class="card" style="background:linear-gradient(135deg,var(--card-hi),var(--card));border-color:var(--gold-deep);margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap"><div><div class="eyebrow" style="color:var(--gold)">${greeting.saudacao}, ${esc(state.profile.name)} • 🔥 ${greeting.streak} dias seguidos</div><h2 style="margin:6px 0 4px;font-size:22px">${esc(greeting.msg)}</h2><div class="muted" style="font-size:13px">Fase atual: <b style="color:var(--gold-soft)">${esc(greeting.phase)}</b> • Progresso: ${planProg.done}/${planProg.total} tarefas • Leitura: ${p}%</div></div><button class="primary" onclick="go('plan')">Continuar Dia ${greeting.currentDay} →</button></div><div class="progress" style="margin-top:14px"><i style="width:${planProg.pct}%"></i></div></div>`:''}
-  <section class="hero"><div class="eyebrow">${state.profile?`Bem-vindo(a) de volta, ${esc(state.profile.name)}`:'Um guia prático para recomeçar'}</div><h1>Método RESET</h1><p>Como reconstruir sua vida depois que o chão desaparece — agora em uma leitura guiada, com 14 ferramentas interativas, streak, celebração e plano de 30 dias com tracker real.</p><div class="actions"><button class="primary" onclick="go('chapter',${first.pi},${first.ci})">Começar a leitura</button><button class="secondary" onclick="go('plan')">Ver meu plano (${planProg.done}/${planProg.total})</button></div></section>
+  <section class="hero"><div class="eyebrow">${state.profile?`Bem-vindo(a) de volta, ${esc(state.profile.name)}`:'Um guia prático para recomeçar'}</div><h1>Método RESET</h1><p>A leitura é a base do Método RESET: conheça a história, entenda cada etapa e só então use as ferramentas indicadas pelo livro. Você pode retomar exatamente de onde parou.</p><div class="actions"><button class="primary" onclick="openReading()">📘 ${esc(getReadingLabel())}</button><button class="secondary" onclick="go('chapters')">Ver índice do livro</button><button class="ghost" onclick="go('plan')">Meu plano (${planProg.done}/${planProg.total})</button></div>${readingTarget?`<div class="muted" style="font-size:13px;margin-top:15px">Próximo capítulo: <b style="color:var(--cream)">${esc(readingTarget.c.title)}</b> · ${p}% da leitura concluída</div>`:`<div class="muted" style="font-size:13px;margin-top:15px">Você concluiu todos os capítulos. Volte ao índice para reler qualquer parte.</div>`}</section>
+  <section class="journey-guide"><div class="eyebrow" style="color:var(--gold)">Como usar</div><h2>Uma etapa de cada vez</h2><div class="journey-grid"><div><span class="journey-number">1</span><div><b>Leia</b><p>O capítulo explica o que observar e qual ferramenta faz sentido.</p></div></div><div><span class="journey-number">2</span><div><b>Pratique</b><p>Preencha só o essencial da ferramenta indicada, sem pressa.</p></div></div><div><span class="journey-number">3</span><div><b>Continue</b><p>Marque seu progresso e volte quando estiver pronto para a próxima etapa.</p></div></div></div></section>
   ${backupAge>7?`<div class="backup-warning">⚠️ Último backup há ${backupAge>30?'+30':backupAge} dias. Seus dados ficam só neste aparelho — exporte para não perder. <button class="ghost" style="margin-left:8px" onclick="exportData()">Exportar agora</button></div>`:''}
   <div class="same-content-note">📘 <span>O PDF do Método RESET é <b>o mesmo conteúdo</b> deste app — mesma jornada, só em outro formato para consultar offline ou imprimir.</span></div>
   <div class="kpi"><div class="card"><div class="muted">🔥 Streak</div><div class="big">${getStreak()} dias</div><div class="muted" style="font-size:12px">Recorde: ${getMaxStreak()} dias • ${state.streak.dates.length} dias ativos</div></div><div class="card"><div class="muted">Progresso de leitura</div><div class="big">${p}%</div><div class="progress"><i style="width:${p}%"></i></div><div class="progress-note">${Object.keys(state.done).length} de ${totalChaptersCount()} capítulos</div></div><div class="card"><div class="muted">Plano 30 dias</div><div class="big">${planProg.pct}%</div><div class="progress"><i style="width:${planProg.pct}%"></i></div><div class="progress-note">${planProg.done} tarefas concluídas • Dia ${getCurrentPlanDay()}/30</div></div></div>
-  ${nextTool?`<div class="card" style="margin-top:18px;background:var(--card-hi);border-color:var(--gold-deep)"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">Sugestão inteligente</div><h3 style="margin:4px 0">${nextTool.icon} ${esc(nextTool.title)}</h3><p class="muted" style="margin:0;font-size:13px">${esc(nextTool.reason)}</p></div><button class="primary" onclick="go('tool',${nextTool.idx})">${nextTool.action} →</button></div></div>`:''}
+  ${nextTool?`<div class="card" style="margin-top:18px;background:var(--card-hi);border-color:var(--gold-deep)"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">Sugestão inteligente</div><h3 style="margin:4px 0">${nextTool.icon} ${esc(nextTool.title)}</h3><p class="muted" style="margin:0;font-size:13px">${esc(nextTool.reason)}</p></div><button class="primary" onclick="${nextToolClick}">${nextTool.action} →</button></div></div>`:''}
   <div class="card reminder-card" style="margin-top:18px"><h3>✦ Lembrete diário — configurável</h3><p class="muted">Escolha o horário para voltar ao método todo dia. Funciona com app aberto ou minimizado. No iPhone, adicione à tela de início para notificações.</p><label class="check"><input type="checkbox" id="reminder-toggle" ${state.reminder.enabled?'checked':''} onchange="setReminder(this.checked,document.getElementById('reminder-time').value)">Ativar lembrete diário</label><label>Horário<input type="time" id="reminder-time" value="${esc(state.reminder.time)}" onchange="setReminder(document.getElementById('reminder-toggle').checked,this.value)"></label><div class="actions" style="margin-top:8px"><button class="ghost" onclick="testReminder()">Testar agora</button><span class="muted" style="font-size:12px;margin-left:8px">${state.reminder.enabled?'Ativo às '+esc(state.reminder.time):'Desativado'}</span></div><div class="save-note">Dica: deixe o app aberto em segundo plano no horário escolhido. O sistema verifica a cada minuto.</div></div>
   <h2 style="margin-top:30px">Escolha um ponto de partida</h2><div class="grid">${DATA.map((p,i)=>`<button class="card part-card" style="text-align:left" onclick="go('chapters',${i})"><div class="part-num">Parte ${i+1}</div><h3>${esc(p.title.replace(/^PARTE [IVX]+ — /,'')||p.title)}</h3><p class="muted">${p.chapters.length} capítulos para avançar no seu ritmo.</p></button>`).join('')}</div><div class="disclaimer">Importante: este app organiza o conteúdo do livro, mas não é uma promessa de cura nem substitui ajuda profissional. Em sofrimento intenso, persistente ou com risco à própria segurança, procure um psicólogo, psiquiatra ou médico.</div>`}
 
 function getNextToolSuggestion(){
-  const order=[
-    {idx:0,icon:'🧩',title:'Matriz da Queda',reason:'Comece separando fato de interpretação — base de tudo',action:'Abrir Matriz'},
-    {idx:1,icon:'📋',title:'Checklist Sintomas',reason:'Normalizar o que sente tira medo extra',action:'Fazer checklist'},
-    {idx:2,icon:'🎯',title:'Escala Prontidão',reason:'Descubra se está em emergência ou pronto para hábitos',action:'Responder escala'},
-    {idx:3,icon:'💪',title:'Painel Físico',reason:'Sono, movimento, alimentação e luz — base física',action:'Cuidar da base'},
-    {idx:4,icon:'🧠',title:'Ficha Distanciamento',reason:'Examine 1 pensamento automático como argumento',action:'Examinar pensamento'},
-    {idx:5,icon:'❤️',title:'Mapa Emoções',reason:'Nomeie a emoção na roda e veja padrões',action:'Mapear emoção'},
-    {idx:6,icon:'💰',title:'Painel Financeiro',reason:'Clareza financeira antes de decisão grande',action:'Organizar finanças'},
-    {idx:7,icon:'🔗',title:'Painel Integrado',reason:'Veja conexões entre as 4 áreas',action:'Fazer check-in'},
-    {idx:8,icon:'🔄',title:'Construtor Hábito',reason:'Escolha 1 hábito pequeno com gatilho e mínima',action:'Criar hábito'},
-    {idx:9,icon:'🛡️',title:'Protocolo Recaída',reason:'Tenha protocolo pronto para dias ruins',action:'Definir protocolo'},
-    {idx:10,icon:'💌',title:'Carta ao Eu Anterior',reason:'Consolide quem você está se tornando',action:'Escrever carta'},
-    {idx:12,icon:'🔍',title:'Revisão Trimestral',reason:'Ajuste, não recomece do zero',action:'Revisar'},
-    {idx:13,icon:'🗓️',title:'Manutenção Anual',reason:'4 check-ins por ano previnem esquecimento',action:'Marcar check-ins'}
-  ];
-  for(let item of order){
-    if(!toolHasData('tool'+item.idx)){
-      return item;
-    }
+  const next=getFirstPendingBookTool();
+  if(next){
+    const t=toolDefs[next.idx];
+    return {idx:next.idx,icon:['🧩','📋','🎯','💪','🧠','❤️','💰','🔗','🔄','🛡️','💌','📅','🔍','🗓️'][next.idx]||'✦',title:t.title,reason:next.how,action:next.idx===0?'Começar agora':'Continuar trilha'};
   }
   const prog=getPlanProgress();
   if(prog.pct<100)return {idx:-1,icon:'📅',title:`Plano Dia ${getCurrentPlanDay()}/30`,reason:`Você tem ${prog.done}/${prog.total} tarefas — continue no Dia ${getCurrentPlanDay()}`,action:'Continuar plano'};
   return null;
 }
 
-function chapters(){return `<div class="section-head"><div><div class="eyebrow" style="color:var(--gold)">Biblioteca</div><h2>Leia no seu ritmo</h2><p class="muted">Você pode voltar, marcar capítulos e usar as ferramentas quando fizer sentido.</p></div><input class="search" id="search" placeholder="Buscar capítulo ou palavra-chave…" oninput="debouncedSearch(this.value)"></div><div class="same-content-note">📘 <span>O PDF do Método RESET disponível para download é <b>o mesmo conteúdo</b> desta leitura — mesma jornada, só em outro formato.</span></div><div id="chapter-list">${chapterList()}</div>`}
+function chapters(){return `<div class="section-head"><div><div class="eyebrow" style="color:var(--gold)">Biblioteca principal</div><h2>Leia no seu ritmo</h2><p class="muted">Comece pelo próximo capítulo sugerido ou escolha qualquer parte no índice. As ferramentas aparecem como apoio dentro da leitura.</p></div><div style="width:min(100%,360px)"><button class="primary" style="width:100%;margin-bottom:10px" onclick="openReading()">📘 ${esc(getReadingLabel())} →</button><input class="search" style="margin-bottom:0" id="search" placeholder="Buscar capítulo ou palavra-chave…" oninput="debouncedSearch(this.value)"></div></div><div class="same-content-note">📘 <span>Este é o caminho principal de conhecimento. Leia primeiro e use cada ferramenta quando a dica do capítulo fizer sentido.</span></div><div id="chapter-list">${chapterList()}</div>`}
 function chapterList(q=''){return DATA.map((p,pi)=>{const cs=p.chapters.filter(c=>(c.title+' '+c.sections.map(s=>s.title+' '+s.paragraphs.join(' ')).join(' ')).toLowerCase().includes(q.toLowerCase()));if(!cs.length)return '';return `<div class="card" style="margin-bottom:16px"><div class="part-num">Parte ${pi+1}</div><h3>${esc(p.title.replace(/^PARTE [IVX]+ — /,'')||p.title)}</h3><div class="chapter-list">${cs.map(c=>{const ci=p.chapters.indexOf(c),id=chapterId(pi,ci);return `<button class="chapter-item" onclick="go('chapter',${pi},${ci})"><span>${state.done[id]?'✓':'○'}</span><b>${esc(c.title)}</b><small>${c.sections.length} seções</small></button>`}).join('')}</div></div>`}).join('')||'<div class="empty">Nenhum capítulo encontrado.</div>'}
 function debouncedSearch(q){if(searchTimer)clearTimeout(searchTimer);searchTimer=setTimeout(()=>{document.getElementById('chapter-list').innerHTML=chapterList(q)},250)}
 function filterChapters(q){document.getElementById('chapter-list').innerHTML=chapterList(q)}
 function chapterJumpSelect(){const arr=allChapters();const opts=arr.map(x=>`<option value="${x.pi}-${x.ci}" ${x.pi===current.part&&x.ci===current.chapter?'selected':''}>${esc(x.p.title.replace(/^PARTE [IVX]+ — /,''))} — ${esc(x.c.title)}</option>`).join('');return `<select class="chapter-jump" aria-label="Ir para outro capítulo" onchange="const v=this.value.split('-').map(Number);go('chapter',v[0],v[1])">${opts}</select>`}
 function readChapter(){const p=DATA[current.part],c=p.chapters[current.chapter],id=chapterId(current.part,current.chapter),done=!!state.done[id];let body='';let chapterToolIdx=-1;c.sections.forEach((s,si)=>{if(!s.title){body+=s.paragraphs.map(x=>`<p>${esc(x)}</p>`).join('');return}const tool=getTool(s.title);if(tool&&chapterToolIdx===-1)chapterToolIdx=toolDefs.indexOf(tool);const summary=s.title.toLowerCase().includes('resumo acionável');body+=`<section class="section ${summary?'summary':''}"><h3>${esc(s.title)}</h3>${tool?renderTool(tool,'ch'+id+'-'+si):''}${s.paragraphs.map(x=>`<p>${esc(x)}</p>`).join('')}</section>`});const toolCta=chapterToolIdx>-1?`<div class="chapter-tool-cta"><div><h4>✦ ${esc(toolDefs[chapterToolIdx].title)}</h4><p>${esc(toolDefs[chapterToolIdx].intro)}</p></div><button class="primary" onclick="go('tool',${chapterToolIdx})">Abrir ${esc(toolDefs[chapterToolIdx].title)} →</button></div>`:'';const arr=allChapters(),idx=arr.findIndex(x=>x.pi===current.part&&x.ci===current.chapter),prev=arr[idx-1],next=arr[idx+1];return `<div class="chapter-topbar"><button class="ghost back" onclick="go('chapters',${current.part})">← Voltar aos capítulos</button>${chapterJumpSelect()}</div><article class="chapter"><div class="part-num">${esc(p.title)}</div><h1 class="chapter-title">${esc(c.title)}</h1><div class="actions"><button class="${done?'secondary':'primary'}" onclick="toggleDone('${id}')">${done?'✓ Capítulo concluído':'Marcar como concluído'}</button><button class="ghost" onclick="go('tools')">Ver todas as ferramentas</button></div>${body}${toolCta}<div class="chapter-nav">${prev?`<button class="ghost" onclick="go('chapter',${prev.pi},${prev.ci})">← ${esc(prev.c.title)}</button>`:'<span></span>'}${next?`<button class="primary" onclick="go('chapter',${next.pi},${next.ci})"> ${esc(next.c.title)} →</button>`:''}</div></article>`}
 function toggleDone(id){if(state.done[id])delete state.done[id];else state.done[id]=true;save();updateStreak();render();toast(state.done[id]?'Capítulo marcado como concluído':'Marca removida')}
-function tools(){const m=state.profile?MOTIVES.find(x=>x.key===state.profile.motive):null;const recIdx=m?toolDefs.findIndex(t=>t.title.toLowerCase().includes(m.toolMatch.toLowerCase())):-1;const recBanner=recIdx>-1?`<div class="tool-recommend-banner">✦ Sugerida para você: <b style="color:var(--gold-soft);margin-left:4px">${esc(toolDefs[recIdx].title)}</b><button class="ghost" style="margin-left:auto" onclick="go('tool',${recIdx})">Abrir →</button></div>`:'';const totalTools=toolDefs.length;const filledTools=toolDefs.filter((_,i)=>toolHasData('tool'+i)).length;return `<div class="section-head"><div><div class="eyebrow" style="color:var(--gold)">Caderno de prática</div><h2>14 Ferramentas RESET</h2><p class="muted">${filledTools} de ${totalTools} preenchidas • Streak 🔥 ${getStreak()} dias • Tudo salvo localmente</p></div></div>${recBanner}<div class="tool-grid">${toolDefs.map((t,i)=>{const filled=toolHasData('tool'+i);const custom=t.custom;let badge='';if(filled)badge='<span class="tool-done-badge">✓ Preenchido</span>';let icon='✦';if(custom==='matriz')icon='🧩';if(custom==='checklist')icon='📋';if(custom==='prontidao')icon='🎯';if(custom==='fisico')icon='💪';if(custom==='distanciamento')icon='🧠';if(custom==='emocoes')icon='❤️';if(custom==='financeiro')icon='💰';if(custom==='integrado')icon='🔗';if(custom==='habito')icon='🔄';if(custom==='recaida')icon='🛡️';if(custom==='carta')icon='💌';if(custom==='cronograma')icon='📅';if(custom==='revisao')icon='🔍';if(custom==='manutencao')icon='🗓️';return `<div class="tool-card">${badge}<h3>${icon} ${esc(t.title)}</h3><p class="muted">${esc(t.intro)}</p><button class="ghost" onclick="go('tool',${i})">Abrir ferramenta →</button></div>`}).join('')}</div><div class="disclaimer">As ferramentas são educativas e de organização pessoal. Não substituem avaliação ou acompanhamento profissional.</div>`}
+function tools(){
+  const next=getFirstPendingBookTool();
+  const totalTools=toolDefs.length;const filledTools=toolDefs.filter((_,i)=>toolHasData('tool'+i)).length;
+  const currentLabel=next?toolDefs[next.idx].title:'trilha principal concluída';
+  const recBanner=`<div class="tool-recommend-banner">✦ <span><b style="color:var(--gold-soft)">Trilha sugerida pelo livro:</b> ${esc(currentLabel)}. Use uma ferramenta por vez; ao começar, a próxima aparece automaticamente.</span><button class="ghost" style="margin-left:auto" onclick="openNextBookTool()">${next?'Abrir →':'Revisar →'}</button></div>`;
+  return `<div class="section-head"><div><div class="eyebrow" style="color:var(--gold)">Caderno de prática</div><h2>14 Ferramentas RESET</h2><p class="muted">${filledTools} de ${totalTools} preenchidas • Ordem guiada pelas dicas do livro • Tudo salvo localmente</p></div></div>${recBanner}<div class="tool-grid">${toolDefs.map((t,i)=>{const filled=toolHasData('tool'+i);const custom=t.custom;let badge='';if(filled)badge='<span class="tool-done-badge">✓ Preenchido</span>';let icon='✦';if(custom==='matriz')icon='🧩';if(custom==='checklist')icon='📋';if(custom==='prontidao')icon='🎯';if(custom==='fisico')icon='💪';if(custom==='distanciamento')icon='🧠';if(custom==='emocoes')icon='❤️';if(custom==='financeiro')icon='💰';if(custom==='integrado')icon='🔗';if(custom==='habito')icon='🔄';if(custom==='recaida')icon='🛡️';if(custom==='carta')icon='💌';if(custom==='cronograma')icon='📅';if(custom==='revisao')icon='🔍';if(custom==='manutencao')icon='🗓️';const order=BOOK_TOOL_SEQUENCE.findIndex(item=>item.idx===i);return `<div class="tool-card">${badge}<div class="part-num">${order>-1?'Etapa '+(order+1)+' de '+BOOK_TOOL_SEQUENCE.length:''}</div><h3>${icon} ${esc(t.title)}</h3><p class="muted">${esc(t.intro)}</p><button class="ghost" onclick="go('tool',${i})">Abrir ferramenta →</button></div>`}).join('')}</div><div class="disclaimer">As ferramentas são educativas e de organização pessoal. Não substituem avaliação ou acompanhamento profissional. Você não precisa preencher todas de uma vez.</div>`
+}
+
 function planView(){const prog=getPlanProgress();return `<div class="section-head"><div><div class="eyebrow" style="color:var(--gold)">Próximos passos</div><h2>Plano de 30 dias — tracker real</h2><p class="muted">${prog.done} de ${prog.total} tarefas • ${prog.pct}% concluído • Dia atual ${getCurrentPlanDay()}/30 • 🔥 ${getStreak()} dias seguidos</p><div class="progress" style="margin-top:10px"><i style="width:${prog.pct}%"></i></div></div><div class="actions"><button class="ghost" onclick="resetPlan()">↺ Zerar plano</button><button class="secondary" onclick="exportData()">⬇ Backup</button>${prog.pct===100?`<button class="primary" onclick="showCelebrationScreen()">🏆 Ver conquista</button>`:''}</div></div>
 <div class="plan-grid">${PLAN_30_DAYS.map(d=>{const dayState=state.plan30.days[d.day]||{tasks:[]};const doneCount=dayState.tasks.filter(Boolean).length;const total=d.tasks.length;const pct=total?Math.round(doneCount/total*100):0;const isDone=pct===100;const isCurrent=d.day===getCurrentPlanDay();return `<div class="plan-day ${isDone?'done':''} ${isCurrent?'current':''}" onclick="openPlanDay(${d.day})"><div class="day-num">Dia ${d.day} • ${esc(d.phase)}</div><div class="day-title">${esc(d.title)}</div><div class="muted" style="font-size:11px">${doneCount}/${total} tarefas</div><div class="day-progress"><i style="width:${pct}%"></i></div></div>`}).join('')}</div>
 <div id="plan-day-detail"></div>
 <div class="grid" style="margin-top:20px"><div class="card"><h3>Semana 1 — Reconhecer e Estabilizar</h3><p>Matriz, Checklist, Escala, Painel Físico. Meta: estancar sangria, não 6 hábitos novos.</p></div><div class="card"><h3>Semanas 2-3 — Estabilizar + Sistematizar</h3><p>Painel Físico, Ficha Distanciamento, Mapa Emoções, Financeiro. Repetir se Escala < 4.</p></div><div class="card"><h3>Semana 4 — Executar e Transformar</h3><p>1 hábito com Construtor, Protocolo Recaída, Carta ao Eu Anterior, Manutenção Anual.</p></div><div class="card"><h3>Regra de segurança</h3><p>30 dias estabelecem bases; não prometem reconstrução completa. O ritmo certo é o seu. Se recair, use protocolo: fato, gatilho, mínima.</p></div></div>`}
 function openPlanDay(day){const d=PLAN_30_DAYS.find(x=>x.day===day);if(!d)return;const dayState=state.plan30.days[day]||{tasks:[]};const el=document.getElementById('plan-day-detail');el.innerHTML=`<div class="card" style="margin-top:16px;max-width:640px"><div class="part-num">Dia ${d.day} • ${esc(d.phase)}</div><h3>${esc(d.title)}</h3><div class="muted" style="font-size:13px;margin-bottom:12px">Marque o que fez hoje. Retomar pela mínima em dia ruim ainda conta.</div>${d.tasks.map((task,i)=>`<label class="check"><input type="checkbox" ${dayState.tasks[i]?'checked':''} onchange="togglePlanTask(${day},${i})">${esc(task)}</label>`).join('')}<div class="actions" style="margin-top:12px"><button class="ghost" onclick="document.getElementById('plan-day-detail').innerHTML=''">Fechar</button><button class="primary" onclick="const nxt=${day+1};if(nxt<=30)openPlanDay(nxt);else toast('🎉 30 dias completos! Revise e celebre')">Próximo dia →</button></div></div>`;el.scrollIntoView({behavior:'smooth'})}
-function wireForms(){document.querySelectorAll('[data-form]').forEach(e=>{const handler=()=>{const k=e.dataset.form;state.forms[k]=state.forms[k]||{};if(e.dataset.field){state.forms[k][e.dataset.field]=e.type==='checkbox'?e.checked:e.value;}if(e.dataset.check!==undefined){const isCustomCheck=e.dataset.check.startsWith('c_')||isNaN(parseInt(e.dataset.check));if(isCustomCheck){state.forms[k]['c_'+e.dataset.check]=e.checked}else{state.forms[k]['c'+e.dataset.check]=e.checked}saveFormCheck(k,e.dataset.check,e.checked);return;}save()};e.addEventListener('input',handler);e.addEventListener('change',handler)})}
+function wireForms(){document.querySelectorAll('[data-form]').forEach(e=>{const handler=()=>{const k=e.dataset.form;state.forms[k]=state.forms[k]||{};if(e.dataset.field){state.forms[k][e.dataset.field]=e.type==='checkbox'?e.checked:e.value;}if(e.dataset.check!==undefined){const isCustomCheck=e.dataset.check.startsWith('c_')||isNaN(parseInt(e.dataset.check));if(isCustomCheck){state.forms[k]['c_'+e.dataset.check]=e.checked}else{state.forms[k]['c'+e.dataset.check]=e.checked}saveFormCheck(k,e.dataset.check,e.checked);refreshNextToolSuggestion(k);return;}save();updateStreak();refreshNextToolSuggestion(k)};e.addEventListener('input',handler);e.addEventListener('change',handler)})}
 function checkReminder(){if(!state.reminder||!state.reminder.enabled||!state.reminder.time)return;const now=new Date(),today=now.toISOString().slice(0,10);const[h,m]=state.reminder.time.split(':').map(Number);const target=new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m);if(now>=target&&state.reminder.lastShown!==today){state.reminder.lastShown=today;save();fireReminder('Hora do seu momento RESET diário ✦')}}
 function fireReminder(msg){toast(msg);if('Notification' in window&&Notification.permission==='granted'){try{new Notification('Método RESET',{body:msg})}catch(e){}}}
 function setReminder(enabled,time){state.reminder=state.reminder||{};state.reminder.enabled=enabled;if(time)state.reminder.time=time;if(enabled&&'Notification' in window&&Notification.permission==='default'){Notification.requestPermission()}save();checkReminder();render()}
@@ -630,8 +711,8 @@ function helpContent(){return `<div class="help-card"><button class="help-close"
 function openHelp(){document.getElementById('help-overlay').innerHTML=helpContent();document.getElementById('help-overlay').style.display='flex'}
 function closeHelp(){document.getElementById('help-overlay').style.display='none'}
 function quizNext(){const v=document.getElementById('quiz-name').value.trim();quizName=v;quizStep=1;renderQuiz()}
-function finishQuiz(motiveKey){state.profile={name:quizName||'Você',motive:motiveKey};save();closeQuizOverlay();if(!state.tour.seen){openTour()}else{const m=MOTIVES.find(x=>x.key===motiveKey);const idx=m?toolDefs.findIndex(t=>t.title.toLowerCase().includes(m.toolMatch.toLowerCase())):-1;if(idx>-1){go('tool',idx)}else{render()}toast('Tudo pronto, '+state.profile.name+'!')}}
-function skipQuiz(){state.profile=state.profile||{name:'Você',motive:null};save();closeQuizOverlay();if(!state.tour.seen){openTour()}else{render()}}
+function finishQuiz(motiveKey){state.profile={name:quizName||'Você',motive:motiveKey};save();closeQuizOverlay();if(!state.tour.seen){openTour()}else{openReading();toast('Tudo pronto, '+state.profile.name+'!')}}
+function skipQuiz(){state.profile=state.profile||{name:'Você',motive:null};save();closeQuizOverlay();if(!state.tour.seen){openTour()}else{openReading()}}
 
 function openTour(){
   state.tour.seen=false;state.tour.step=0;
@@ -642,10 +723,8 @@ function openTour(){
 function closeTour(){
   state.tour.seen=true;save();
   document.getElementById('tour-overlay').style.display='none';
-  const m=state.profile?MOTIVES.find(x=>x.key===state.profile.motive):null;
-  const idx=m?toolDefs.findIndex(t=>t.title.toLowerCase().includes(m.toolMatch.toLowerCase())):-1;
-  if(idx>-1){go('tool',idx)}else{go('home')}
-  toast('Tour concluído — bora começar! 🌱');
+  openReading();
+  toast('Tour concluído — bora começar pela leitura! 🌱');
 }
 function renderTour(){
   const steps=[
